@@ -4,23 +4,26 @@ import { BARREN_HEIGHT_LOGIC } from './barren_height.js';
 export const BARREN_VERTEX = `
     uniform vec3 uSeed;
     
-    varying vec3 vObjectPos; // Position on the sphere (Local)
-    varying vec3 vNormal;    // Normal of the sphere (Local)
-    varying float vHeight;   // Height for coloring
+    varying vec3 vObjectPos;    // Position on the sphere (Local/Object space)
+    varying vec3 vNormal;       // Normal of the sphere (Local/Object space)
+    varying vec3 vWorldNormal;  // Base sphere normal in world space (for macro lighting)
+    varying float vHeight;      // Height for coloring
 
     ${BARREN_HEIGHT_LOGIC}
 
     void main() {
         vObjectPos = position;
-        vNormal = normal; // Pass local normal to fragment
+        vNormal = normal;
+        
+        // Transform the BASE sphere normal to world space for macro sun lighting
+        // This gives us the day/night terminator independent of surface detail
+        vWorldNormal = normalize(mat3(modelMatrix) * normal);
         
         // 1. Physical Displacement (Silhouette)
-        // We calculate height here to push the vertices out/in
         float h = getSurfaceHeight(position, uSeed);
         vHeight = h;
         
-        // Displace: 0.05 is enough for a silhouette. 
-        // Too high = spikes. Detail comes from lighting, not displacement.
+        // Displace vertices along normal
         vec3 newPosition = position + (normal * h * 0.05);
 
         gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
@@ -36,15 +39,21 @@ export const BARREN_FRAGMENT = `
 
     varying vec3 vObjectPos;
     varying vec3 vNormal;
+    varying vec3 vWorldNormal;  // Base world normal for macro lighting
     varying float vHeight;
 
     ${BARREN_HEIGHT_LOGIC}
 
     void main() {
-        // 1. CALCULATE HIGH-RES NORMALS (Per Pixel)
-        // We calculate the slope of the noise at this specific pixel
+        vec3 sunDir = normalize(uSunDirection);
+        
+        // 1. MACRO LIGHTING - Day/Night terminator based on sphere shape
+        // This uses the smooth world normal from the base sphere geometry
+        float macroLight = max(dot(vWorldNormal, sunDir), 0.0);
+        
+        // 2. CALCULATE MICRO NORMALS for crater detail lighting
         float eps = 0.001; 
-        float h = vHeight; // Use interpolated height for center
+        float h = vHeight;
         float h_x = getSurfaceHeight(vObjectPos + vec3(eps, 0, 0), uSeed);
         float h_y = getSurfaceHeight(vObjectPos + vec3(0, eps, 0), uSeed);
         float h_z = getSurfaceHeight(vObjectPos + vec3(0, 0, eps), uSeed);
@@ -52,36 +61,31 @@ export const BARREN_FRAGMENT = `
         // Calculate gradient (The slope of the crater)
         vec3 gradient = vec3(h_x - h, h_y - h, h_z - h) / eps;
 
-        // Perturb the Local Normal
-        // Strength 5.0 makes the craters look deep
-        vec3 localPerturbedNormal = normalize(vNormal - gradient * 5.0); 
-
-        // 2. CONVERT TO WORLD SPACE
-        // This is the critical step. We take our detailed local normal
-        // and rotate it by the planet's rotation (modelMatrix) so it faces the universe correctly.
-        // Note: modelMatrix is provided by Three.js automatically.
-        vec3 worldNormal = normalize(mat3(modelMatrix) * localPerturbedNormal);
-
-        // 3. LIGHTING (Shadows)
-        // Now we compare the Rotating Planet Surface against the Fixed Sun
-        vec3 sunDir = normalize(uSunDirection);
-        float diff = max(dot(worldNormal, sunDir), 0.0);
+        // Perturb the local normal for micro detail
+        vec3 localPerturbedNormal = normalize(vNormal - gradient * 3.0); 
         
-        // Sharp Terminator: Make the transition from light to dark crisp
-        // This helps the "Moon" look
-        // diff = smoothstep(0.0, 0.2, diff); 
+        // For micro lighting, we compare against the local sun direction
+        // Transform sun to local space for detail comparison
+        vec3 localSunDir = normalize(vNormal); // approximate - use base normal direction
+        float microDetail = max(dot(localPerturbedNormal, vNormal), 0.0);
+        
+        // Combine: use gradient to add local shadowing within craters
+        float craterShadow = 1.0 - clamp(length(gradient) * 2.0, 0.0, 0.5);
 
-        // 4. COLORING
+        // 3. COLORING
         float isCrater = smoothstep(-0.02, 0.03, h); 
         vec3 albedo = mix(uColorCraters, uColorRock, isCrater);
         
-        // Add detailed grit texture
-        float grit = snoise(vObjectPos * 120.0 + uSeed);
-        albedo *= (0.8 + 0.3 * grit);
+        // Add subtle grit texture (reduced intensity)
+        float grit = snoise(vObjectPos * 80.0 + uSeed);
+        albedo *= (0.9 + 0.15 * grit);
 
-        // 5. COMPOSITE
-        // Diffuse + very low ambient (0.01) so shadows are BLACK
-        vec3 finalColor = albedo * (diff + 0.01);
+        // 4. COMPOSITE LIGHTING
+        // Macro light controls day/night, micro detail adds crater shadows
+        float ambient = 0.03;
+        float totalLight = ambient + (macroLight * 0.97 * craterShadow);
+        
+        vec3 finalColor = albedo * totalLight;
 
         gl_FragColor = vec4(finalColor, 1.0);
     }
