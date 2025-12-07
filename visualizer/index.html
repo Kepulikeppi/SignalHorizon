@@ -1,0 +1,46 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Solar System Generator Debug View</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <h1>Solar System Debug View</h1>
+    <div id="systemInfo">
+      <p><strong>Star:</strong> <span id="starName">–</span></p>
+      <p><strong>Planets:</strong> <span id="planetCount">–</span></p>
+      <p><strong>Note:</strong> Hover planets for order/type. Click to inspect details.</p>
+      <p style="margin-top:6px;">
+        <strong>Distance units:</strong> semi-major axis in AU and million km
+        (1 AU ≈ 149.6 million km).
+      </p>
+    </div>
+
+    <h2>Selected Planet</h2>
+    <div id="planetSummary">
+      <p>No planet selected. Click a planet in the diagram.</p>
+    </div>
+
+    <h2>Raw Planet JSON</h2>
+    <pre id="planetJson">{ }</pre>
+  </aside>
+
+  <main id="main">
+    <div id="controls">
+      <label for="zoomSlider">Zoom</label>
+      <input type="range" id="zoomSlider" min="0.5" max="3" step="0.1" value="1">
+      <button id="regenBtn">Regenerate System</button>
+    </div>
+    <svg id="systemSvg" viewBox="-400 -400 800 800">
+      <!-- Content injected by JS -->
+    </svg>
+  </main>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
