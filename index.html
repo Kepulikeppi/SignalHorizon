@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- --- SOCIAL PREVIEW TAGS --- -->
+    <meta property="og:title" content="Planet Generator">
+    <meta property="og:description" content="Generate new planets procedurally">
+    <meta property="og:image" content="https://kepulikeppi.com/utils/planet-generator/preview.jpg">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="400">
+    <meta property="og:url" content="https://kepulikeppi.com/utils/planet-generator/index.html">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Voxel Probe Explorer">
+    <meta name="twitter:image" content="https://kepulikeppi.com/utils/planet-generator/preview.jpg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Top Right Info Panel -->
+    <div id="ui-panel">
+        <h3 class="panel-title">SENSORS ACTIVE</h3>
+        <div class="stat-row">
+            <span class="stat-label">Resolution:</span>
+            <span class="stat-value">ULTRA</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Composition:</span>
+            <span class="stat-value">FRACTAL</span>
+        </div>
+        <div class="instructions">
+            * Mouse to rotate<br>
+            * Scroll to zoom
+        </div>
+    </div>
+
+    <!-- Bottom Left Controls -->
+    <div id="controls">
+        <button id="btn-barren">Type: Barren</button>
+        <button id="btn-terrestrial">Type: Terrestrial</button>
+        <button id="btn-gas">Type: Gas Giant</button>
+        <div class="separator"></div>
+        <button id="btn-seed" class="btn-action">Randomize Seed</button>
+    </div>
+
+        
+    <!-- PARAMETER CONTROLS -->
+    <div id="settings-panel">
+        <div class="setting-group">
+            <label>Water Level</label>
+            <input type="range" id="inp-water" min="-1.0" max="1.0" step="0.05" value="0.0">
+        </div>
+        <div class="setting-group">
+            <label>Atmosphere</label>
+            <input type="range" id="inp-atmo" min="0.0" max="2.0" step="0.1" value="0.6">
+        </div>
+        <div class="setting-group">
+            <label>Cloud Density</label>
+            <input type="range" id="inp-clouds" min="0.0" max="1.0" step="0.1" value="1.0">
+        </div>
+        <div class="setting-group">
+            <label>Rotation</label>
+            <input type="range" id="inp-rot" min="0.0" max="0.5" step="0.01" value="0.05">
+        </div>
+    </div>
+
+  
+    <!-- Import Map -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Main Script -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+:root {
+    /* FLUID TYPOGRAPHY VARIABLES */
+    /* Text will be 16px on small screens, scaling up to 24px on large screens */
+    --font-base: clamp(16px, 2vw, 24px); 
+    --font-sm:   clamp(12px, 1.5vw, 18px);
+    --font-xs:   clamp(10px, 1.2vw, 14px);
+    
+    /* Colors */
+    --c-bg: #000;
+    --c-panel: rgba(0, 10, 20, 0.9);
+    --c-primary: #4af;
+    --c-accent: #ff9900;
+    --c-dim: #8ac;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--c-bg);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: var(--font-base); /* Apply base size everywhere */
+}
+
+/* --- TOP RIGHT PANEL --- */
+#ui-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    /* Width now scales with screen size too */
+    width: clamp(300px, 25vw, 500px);
+    
+    background: var(--c-panel);
+    border: 1px solid var(--c-primary);
+    color: var(--c-primary);
+    padding: 1.5em; /* Padding scales with font size */
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(68, 170, 255, 0.1);
+    backdrop-filter: blur(4px);
+    user-select: none;
+}
+
+.panel-title {
+    margin-top: 0;
+    font-size: 1.2em; /* 120% of base size */
+    border-bottom: 2px solid var(--c-primary);
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8em;
+    font-size: 1em; 
+}
+
+.stat-label { color: var(--c-dim); }
+.stat-value { font-weight: bold; color: #fff; }
+
+.instructions {
+    font-size: 0.75em; /* Smaller relative size */
+    color: #888;
+    margin-top: 1.5em;
+    border-top: 1px solid #234;
+    padding-top: 1em;
+    line-height: 1.6;
+}
+
+/* --- BOTTOM LEFT CONTROLS --- */
+#controls {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    gap: 15px; /* Gap scales roughly with layout */
+    z-index: 10;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+button {
+    background: rgba(0, 20, 40, 0.95);
+    border: 1px solid var(--c-primary);
+    color: var(--c-primary);
+    
+    /* Fluid font size for buttons */
+    font-size: var(--font-sm);
+    padding: 0.8em 1.2em;
+    
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: var(--c-primary);
+    color: #000;
+    box-shadow: 0 0 15px var(--c-primary);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+.separator {
+    width: 1px;
+    background: var(--c-primary);
+    margin: 0 5px;
+    opacity: 0.5;
+}
+
+.btn-action {
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+}
+
+.btn-action:hover {
+    background: var(--c-accent);
+    color: #000;
+    box-shadow: 0 0 15px var(--c-accent);
+}
+
+#settings-panel {
+    position: absolute;
+    bottom: 80px; /* Above the type buttons */
+    left: 30px;
+    width: 250px;
+    background: rgba(0, 10, 20, 0.9);
+    border: 1px solid #4af;
+    padding: 15px;
+    border-radius: 4px;
+    color: #4af;
+}
+
+.setting-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-group label {
+    font-size: var(--font-xs);
+    margin-bottom: 5px;
+    color: #8ac;
+}
+
+input[type=range] {
+    width: 100%;
+    cursor: pointer;
+}
