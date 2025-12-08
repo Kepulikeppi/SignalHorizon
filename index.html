@@ -46,9 +46,9 @@
         <button id="btn-seed" class="btn-action">Randomize Seed</button>
     </div>
 
-        
-    <!-- PARAMETER CONTROLS -->
-    <div id="settings-panel">
+    <!-- TERRESTRIAL SETTINGS PANEL -->
+    <div id="settings-panel-terrestrial" class="settings-panel">
+        <h4 class="settings-title">TERRESTRIAL</h4>
         <div class="setting-group">
             <label>Water Level</label>
             <input type="range" id="inp-water" min="-1.0" max="1.0" step="0.05" value="0.0">
@@ -59,7 +59,7 @@
         </div>
         <div class="setting-group">
             <label>Cloud Density</label>
-            <input type="range" id="inp-clouds" min="0.0" max="1.0" step="0.1" value="1.0">
+            <input type="range" id="inp-clouds" min="0.0" max="1.0" step="0.1" value="0.5">
         </div>
         <div class="setting-group">
             <label>Rotation</label>
@@ -67,7 +67,75 @@
         </div>
     </div>
 
-  
+    <!-- BARREN SETTINGS PANEL -->
+    <div id="settings-panel-barren" class="settings-panel">
+        <h4 class="settings-title">BARREN PLANET</h4>
+        
+        <div class="settings-section">
+            <span class="section-label">Craters</span>
+            <div class="setting-group">
+                <label>Large Density <span class="val" id="val-lgDensity">3.0</span></label>
+                <input type="range" id="inp-lgDensity" min="1.0" max="10.0" step="0.5" value="3.0">
+            </div>
+            <div class="setting-group">
+                <label>Large Depth <span class="val" id="val-lgDepth">0.20</span></label>
+                <input type="range" id="inp-lgDepth" min="0.0" max="0.5" step="0.02" value="0.2">
+            </div>
+            <div class="setting-group">
+                <label>Medium Density <span class="val" id="val-mdDensity">8.0</span></label>
+                <input type="range" id="inp-mdDensity" min="2.0" max="20.0" step="1.0" value="8.0">
+            </div>
+            <div class="setting-group">
+                <label>Medium Depth <span class="val" id="val-mdDepth">0.08</span></label>
+                <input type="range" id="inp-mdDepth" min="0.0" max="0.2" step="0.01" value="0.08">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <span class="section-label">Terrain</span>
+            <div class="setting-group">
+                <label>Base Bumpiness <span class="val" id="val-bump">0.05</span></label>
+                <input type="range" id="inp-bump" min="0.0" max="0.2" step="0.01" value="0.05">
+            </div>
+            <div class="setting-group">
+                <label>Grain Strength <span class="val" id="val-grainStr">0.005</span></label>
+                <input type="range" id="inp-grainStr" min="0.0" max="0.02" step="0.001" value="0.005">
+            </div>
+            <div class="setting-group">
+                <label>Grain Frequency <span class="val" id="val-grainFreq">40</span></label>
+                <input type="range" id="inp-grainFreq" min="10.0" max="100.0" step="5.0" value="40.0">
+            </div>
+            <div class="setting-group">
+                <label>Displacement <span class="val" id="val-disp">0.05</span></label>
+                <input type="range" id="inp-disp" min="0.0" max="0.15" step="0.01" value="0.05">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <span class="section-label">Lighting</span>
+            <div class="setting-group">
+                <label>Normal Strength <span class="val" id="val-normStr">3.0</span></label>
+                <input type="range" id="inp-normStr" min="0.5" max="8.0" step="0.5" value="3.0">
+            </div>
+            <div class="setting-group">
+                <label>Surface Grit <span class="val" id="val-grit">0.30</span></label>
+                <input type="range" id="inp-grit" min="0.0" max="1.0" step="0.05" value="0.3">
+            </div>
+            <div class="setting-group">
+                <label>Ambient Light <span class="val" id="val-ambient">0.03</span></label>
+                <input type="range" id="inp-ambient" min="0.0" max="0.2" step="0.01" value="0.03">
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <span class="section-label">Animation</span>
+            <div class="setting-group">
+                <label>Rotation Speed <span class="val" id="val-rotBarren">0.05</span></label>
+                <input type="range" id="inp-rotBarren" min="0.0" max="0.5" step="0.01" value="0.05">
+            </div>
+        </div>
+    </div>
+
     <!-- Import Map -->
     <script type="importmap">
         {

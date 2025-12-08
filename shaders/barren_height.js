@@ -5,20 +5,23 @@ export const BARREN_HEIGHT_LOGIC = `
     ${NOISE_FUNCTIONS}
     ${CRATER_LOGIC}
 
-    float getSurfaceHeight(vec3 p, vec3 seed) {
+    // These uniforms will be declared in the main shader
+    // uCraterLargeDensity, uCraterLargeDepth
+    // uCraterMedDensity, uCraterMedDepth
+    // uBaseBumpiness, uGrainStrength, uGrainFrequency
+
+    float getSurfaceHeight(vec3 p, vec3 seed, float largeDensity, float largeDepth, float medDensity, float medDepth, float baseBump, float grainStr, float grainFreq) {
         // 1. General Shape - gentle lumps
-        float base = fbm(p * 1.0 + seed) * 0.05;
+        float base = fbm(p * 1.0 + seed) * baseBump;
         
         // 2. Large Craters - Sparse but deep
-        // density 3.0, size 1.0
-        float cratersLarge = getCraterHeight(p + seed, 3.0, 1.0) * 0.2; 
+        float cratersLarge = getCraterHeight(p + seed, largeDensity, 1.0) * largeDepth; 
         
         // 3. Medium Craters - More frequent
-        // density 8.0
-        float cratersMed = getCraterHeight(p + seed + vec3(12.3), 8.0, 1.0) * 0.08;
+        float cratersMed = getCraterHeight(p + seed + vec3(12.3), medDensity, 1.0) * medDepth;
         
-        // 4. Micro Texture - Very subtle to avoid aliasing
-        float grain = snoise(p * 40.0 + seed) * 0.005;
+        // 4. Micro Texture
+        float grain = snoise(p * grainFreq + seed) * grainStr;
 
         return base + cratersLarge + cratersMed + grain;
     }

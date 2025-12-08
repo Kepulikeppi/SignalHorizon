@@ -1,4 +1,3 @@
-/* styles.css */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -103,7 +102,7 @@ h2 {
 
 .orbit {
   fill: none;
-  stroke: rgba(200, 200, 255, 0.2);
+  stroke: rgba(200, 200, 255, 0.18);
   stroke-width: 0.3;
 }
 
@@ -115,11 +114,11 @@ h2 {
 
 .planet.selected {
   stroke: #ffffff;
-  stroke-width: 1.5;
+  stroke-width: 1.2;
 }
 
 #starLabel {
-  font-size: 12px;
+  font-size: 10px;
   fill: #ffd;
   pointer-events: none;
   text-anchor: middle;

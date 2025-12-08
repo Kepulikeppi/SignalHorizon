@@ -54,13 +54,37 @@ export const GAME_DEFAULTS = {
     seed: 12345,
     
     // Default Planet Type on Load
-    type: "terrestrial", 
+    type: "barren", // Changed to barren for testing
 
-    // Initial Slider Values
+    // Shared params
     params: {
+        rotationSpeed: 0.05   // 0.0 to 0.5
+    },
+
+    // Terrestrial-specific params
+    terrestrial: {
         waterLevel: 0.0,      // -1.0 to 1.0
         atmoDensity: 0.6,     // 0.0 to 2.0
         cloudDensity: 0.5,    // 0.0 to 1.0
-        rotationSpeed: 0.05   // 0.0 to 0.5
+    },
+
+    // Barren-specific params (ALL 10 PARAMETERS)
+    barren: {
+        // Crater settings
+        craterLargeDensity: 3.0,    // 1.0 to 10.0 - How many large craters
+        craterLargeDepth: 0.2,      // 0.0 to 0.5 - How deep large craters are
+        craterMedDensity: 8.0,      // 2.0 to 20.0 - How many medium craters
+        craterMedDepth: 0.08,       // 0.0 to 0.2 - How deep medium craters are
+        
+        // Terrain settings
+        baseBumpiness: 0.05,        // 0.0 to 0.2 - Overall terrain waviness
+        grainStrength: 0.005,       // 0.0 to 0.02 - Micro texture strength
+        grainFrequency: 40.0,       // 10.0 to 100.0 - Micro texture scale
+        displacementStrength: 0.05, // 0.0 to 0.15 - Silhouette deformation
+        
+        // Lighting settings
+        normalStrength: 3.0,        // 0.5 to 8.0 - How sharp crater edges look
+        surfaceGrit: 0.3,           // 0.0 to 1.0 - Visual surface noise
+        ambientLight: 0.03,         // 0.0 to 0.2 - Brightness of dark side
     }
 };

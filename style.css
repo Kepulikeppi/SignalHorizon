@@ -1,6 +1,5 @@
 :root {
     /* FLUID TYPOGRAPHY VARIABLES */
-    /* Text will be 16px on small screens, scaling up to 24px on large screens */
     --font-base: clamp(16px, 2vw, 24px); 
     --font-sm:   clamp(12px, 1.5vw, 18px);
     --font-xs:   clamp(10px, 1.2vw, 14px);
@@ -18,7 +17,7 @@ body {
     overflow: hidden;
     background-color: var(--c-bg);
     font-family: 'Courier New', Courier, monospace;
-    font-size: var(--font-base); /* Apply base size everywhere */
+    font-size: var(--font-base);
 }
 
 /* --- TOP RIGHT PANEL --- */
@@ -26,14 +25,11 @@ body {
     position: absolute;
     top: 20px;
     right: 20px;
-    
-    /* Width now scales with screen size too */
     width: clamp(300px, 25vw, 500px);
-    
     background: var(--c-panel);
     border: 1px solid var(--c-primary);
     color: var(--c-primary);
-    padding: 1.5em; /* Padding scales with font size */
+    padding: 1.5em;
     border-radius: 4px;
     box-shadow: 0 0 15px rgba(68, 170, 255, 0.1);
     backdrop-filter: blur(4px);
@@ -42,7 +38,7 @@ body {
 
 .panel-title {
     margin-top: 0;
-    font-size: 1.2em; /* 120% of base size */
+    font-size: 1.2em;
     border-bottom: 2px solid var(--c-primary);
     padding-bottom: 0.5em;
     margin-bottom: 1em;
@@ -62,7 +58,7 @@ body {
 .stat-value { font-weight: bold; color: #fff; }
 
 .instructions {
-    font-size: 0.75em; /* Smaller relative size */
+    font-size: 0.75em;
     color: #888;
     margin-top: 1.5em;
     border-top: 1px solid #234;
@@ -76,20 +72,17 @@ body {
     bottom: 30px;
     left: 30px;
     display: flex;
-    gap: 15px; /* Gap scales roughly with layout */
+    gap: 15px;
     z-index: 10;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
 }
 
 button {
     background: rgba(0, 20, 40, 0.95);
     border: 1px solid var(--c-primary);
     color: var(--c-primary);
-    
-    /* Fluid font size for buttons */
     font-size: var(--font-sm);
     padding: 0.8em 1.2em;
-    
     font-family: 'Courier New', monospace;
     font-weight: bold;
     cursor: pointer;
@@ -126,9 +119,115 @@ button:active {
     box-shadow: 0 0 15px var(--c-accent);
 }
 
+/* --- SETTINGS PANELS --- */
+.settings-panel {
+    position: absolute;
+    bottom: 80px;
+    left: 30px;
+    width: 280px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    background: rgba(0, 10, 20, 0.95);
+    border: 1px solid #4af;
+    padding: 15px;
+    border-radius: 4px;
+    color: #4af;
+    display: none; /* Hidden by default */
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+.settings-title {
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #4af;
+    font-size: var(--font-sm);
+    letter-spacing: 2px;
+}
+
+.settings-section {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #234;
+}
+
+.settings-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-label {
+    display: block;
+    font-size: var(--font-xs);
+    color: var(--c-accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.setting-group {
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.setting-group label {
+    font-size: var(--font-xs);
+    margin-bottom: 4px;
+    color: #8ac;
+    display: flex;
+    justify-content: space-between;
+}
+
+.setting-group label .val {
+    color: #fff;
+    font-weight: bold;
+}
+
+input[type=range] {
+    width: 100%;
+    cursor: pointer;
+    height: 6px;
+    -webkit-appearance: none;
+    background: #234;
+    border-radius: 3px;
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--c-primary);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    background: #6cf;
+    box-shadow: 0 0 8px var(--c-primary);
+}
+
+/* Scrollbar styling */
+.settings-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.settings-panel::-webkit-scrollbar-track {
+    background: #123;
+}
+
+.settings-panel::-webkit-scrollbar-thumb {
+    background: #4af;
+    border-radius: 3px;
+}
+
+/* Legacy support for old panel ID */
 #settings-panel {
     position: absolute;
-    bottom: 80px; /* Above the type buttons */
+    bottom: 80px;
     left: 30px;
     width: 250px;
     background: rgba(0, 10, 20, 0.9);
@@ -136,21 +235,4 @@ button:active {
     padding: 15px;
     border-radius: 4px;
     color: #4af;
-}
-
-.setting-group {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column;
-}
-
-.setting-group label {
-    font-size: var(--font-xs);
-    margin-bottom: 5px;
-    color: #8ac;
-}
-
-input[type=range] {
-    width: 100%;
-    cursor: pointer;
 }
